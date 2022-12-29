@@ -95,16 +95,28 @@ function container:draw()
         love.graphics.draw(self.tileset[ self.decorations[i][k] ][3],(i - 1)* self.wx - self.x, (k - 1)* self.wy - self.y, math.rad(90))
       end end
       
-      if self.objects[i] then if self.objects[i][k] then
+      if self.objects[i] then if self.objects[i][k] then if self.objects[i][k] ~= 0 then
         love.graphics.draw(self.tileset[ self.objects[i][k] ][3],(i - 1)* self.wx - self.x, (k - 1)* self.wy - self.y, math.rad(90))
-      end end
+        love.graphics.print(self.objects[i][k],(i - 1)* self.wx - self.x, (k - 1)* self.wy - self.y)
+      end end end
       
+
+      local a1 = Tiles.objects[math.floor(x)][math.ceil(y)]
+      local a2 = Tiles.objects[math.ceil(x)][math.ceil(y)]
+      local b1 = Tiles.objects[math.floor(x)][math.floor(y)]
+      local b2 = Tiles.objects[math.ceil(x)][math.floor(y)]
+    
+      if  a1 == 1 then love.graphics.rectangle("line",(i - 1)* self.wx - self.x, (k - 1)* self.wy - self.y, self.wx, self.wy) end
+
     end
     --error()
   end
   
-  love.graphics.print(self.x,nil,20)
-  love.graphics.print(self.y,nil,40)
+  love.graphics.print(self.x / self.wx - x + 1,nil,20)
+  love.graphics.print(self.y / self.wy - y + 1,nil,40)
+  --print(#self.objects[x])
+  --love.graphics.print(self.objects[x][y],nil,60)
+  --love.graphics.print(,nil,80)
   --love.graphics.print(tostring(pcall(a,self)),nil,60)
   
   
@@ -117,7 +129,7 @@ function container:move(dx,dy)
 end
 
 function container:setGenFunction(Function)
-  self.generate = Function or (function(self,mx,my)for i=1,mx do self.grid[i] = {}; for k=1,my do self.grid[i][k] = 1 end end end)
+  self.generate = Function or function(self,mx,my)for i=1,mx do self.grid[i] = {}; for k=1,my do self.grid[i][k] = 1 end end end
 end
 
 
